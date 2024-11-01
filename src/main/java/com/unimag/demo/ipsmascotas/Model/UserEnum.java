@@ -2,10 +2,10 @@ package com.unimag.demo.ipsmascotas.Model;
 
 public class UserEnum {
     public enum RoleType {
-        USER, VETERINARIAN, ADMINISTRATOR
+        usuario, veterinario, administrador
     }
     
     public enum ServiceStatus {
-        ACTIVE, SUSPENDED
+        activo, suspendido
     }
 }

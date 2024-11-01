@@ -1,5 +1,8 @@
 package com.unimag.demo.ipsmascotas.Model;
 
+
+import com.unimag.demo.ipsmascotas.Model.UserEnum.*;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -23,10 +26,10 @@ public class User {
     private String direccion;
 
     @Enumerated(EnumType.STRING)
-    private Roltipo rol;
+    private RoleType rol;
 
     @Enumerated(EnumType.STRING)
-    private EstadoServicios estado;
+    private ServiceStatus estado;
 
     public Long getUserId() {
         return userId;
@@ -76,22 +79,23 @@ public class User {
         this.direccion = direccion;
     }
 
-    public Roltipo getRol() {
+    public RoleType getRol() {
         return rol;
     }
 
-    public void setRol(Roltipo rol) {
+    public void setRol(RoleType rol) {
         this.rol = rol;
     }
 
-    public EstadoServicios getEstado() {
+    public ServiceStatus getEstado() {
         return estado;
     }
 
-    public void setEstado(EstadoServicios estado) {
+    public void setEstado(ServiceStatus estado) {
         this.estado = estado;
     }
 
-    
-
 }
+
+
+

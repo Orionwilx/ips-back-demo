@@ -3,6 +3,7 @@ package com.unimag.demo.ipsmascotas.Model;
 
 import com.unimag.demo.ipsmascotas.Model.UserEnum.*;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -19,17 +20,28 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
 
-    private String nombre;
+    @Column(name = "nombre", nullable = false)
+    private String name;
+
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
-    private String contraseña;
-    private String telefono;
-    private String direccion;
+
+    @Column(name = "contraseña", nullable = false)
+    private String password;
+
+    @Column(name = "telefono")
+    private String phone;
+
+    @Column(name = "direccion")
+    private String address;
 
     @Enumerated(EnumType.STRING)
-    private RoleType rol;
+    @Column(name = "rol", nullable = false)
+    private RoleType role;
 
     @Enumerated(EnumType.STRING)
-    private ServiceStatus estado;
+    @Column(name = "estado", nullable = false)
+    private ServiceStatus status;
 
     public Long getUserId() {
         return userId;
@@ -39,12 +51,12 @@ public class User {
         this.userId = userId;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -55,46 +67,48 @@ public class User {
         this.email = email;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getPassword() {
+        return password;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public String getAddress() {
+        return address;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public RoleType getRol() {
-        return rol;
+    public RoleType getRole() {
+        return role;
     }
 
-    public void setRol(RoleType rol) {
-        this.rol = rol;
+    public void setRole(RoleType role) {
+        this.role = role;
     }
 
-    public ServiceStatus getEstado() {
-        return estado;
+    public ServiceStatus getStatus() {
+        return status;
     }
 
-    public void setEstado(ServiceStatus estado) {
-        this.estado = estado;
+    public void setStatus(ServiceStatus status) {
+        this.status = status;
     }
 
+    
+    
 }
 
 

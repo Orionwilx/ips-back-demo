@@ -1,5 +1,8 @@
 package com.unimag.demo.ipsmascotas.Controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +27,27 @@ public class UserController {
 
     @CrossOrigin(origins = "*") // Permitir cualquier origen
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
-         // Verifica que el campo 'name' esté presente en el objeto 'user'
+    public ResponseEntity<Map<String, Object>> registerUser(@RequestBody User user) {
+        // Verifica que el campo 'name' esté presente en el objeto 'user'
         if (user.getName() == null) {
-            return ResponseEntity.badRequest().body("El nombre no puede ser nulo");
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "El nombre no puede ser nulo");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+        // Verifica que el campo 'email' sea único
+        if (userService.findByEmail(user.getEmail()).isPresent()) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "El email ya está registrado");
+            return ResponseEntity.badRequest().body(errorResponse);
         }
 
-        User createdUser = userService.createUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Usuario registrado exitosamente \n" + createdUser);
+        userService.createUser(user);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("mensaje", "Usuario registrado exitosamente");
+        response.put("usuario", user);
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @CrossOrigin(origins = "*") // Permitir cualquier origen

@@ -47,30 +47,32 @@ public class SecurityConfig {
         return new JwtRequestFilter(userDetailsService, jwtUtil);
     }
 
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+            JwtRequestFilter jwtRequestFilter)
+            throws Exception {
+        http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/api/authenticate", "/api/users/register").permitAll()
+                        .anyRequest().authenticated())
+                .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.addFilterBefore(jwtRequestFilter,
+                UsernamePasswordAuthenticationFilter.class);
+        return http.build();
+    }
+
     // @Bean
-    // public SecurityFilterChain securityFilterChain(HttpSecurity http,
-    // JwtRequestFilter jwtRequestFilter)
-    // throws Exception {
+    // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws
+    // Exception {
     // http.csrf(csrf -> csrf.disable())
     // .authorizeHttpRequests((requests) -> requests
-    // .requestMatchers("/authenticate" ).permitAll()
-    // .anyRequest().authenticated())
+    // .anyRequest().permitAll() // Permitir todas las solicitudes sin autenticación
+    // )
     // .sessionManagement(management ->
     // management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-    // http.addFilterBefore(jwtRequestFilter,
+    // http.addFilterBefore(jwtRequestFilter(null),
     // UsernamePasswordAuthenticationFilter.class);
     // return http.build();
     // }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests((requests) -> requests
-                        .anyRequest().permitAll() // Permitir todas las solicitudes sin autenticación
-                )
-                .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.addFilterBefore(jwtRequestFilter(null),
-                UsernamePasswordAuthenticationFilter.class);
-        return http.build();
-    }
 }
